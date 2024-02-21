@@ -10,7 +10,13 @@ public class Player_Ship : Spaceship_Base
 
     private void Start()
     {
-        playerHealth = base.shipHealth;
+        // Person student1 = new Person
+        // student.setName("Adrian");
+        // printf(student.getName);
+
+
+        // accessing the ship health attribute of the base ship and setting it to player health is Inheritance
+        playerHealth = base.baseShipHealth;
         playerSpeed = base.shipSpeed - 5;
         Debug.Log("Player Health: " +  playerHealth);
     }
@@ -21,6 +27,8 @@ public class Player_Ship : Spaceship_Base
         MoveShip();
     }
 
+
+    // this is polymorphism, overriding the moveship method from base method to allow player input to move the ship
     protected override void MoveShip()
     {
         //move ship here through player input
@@ -42,9 +50,6 @@ public class Player_Ship : Spaceship_Base
 
 
     }
-
-
-
 
 
 
