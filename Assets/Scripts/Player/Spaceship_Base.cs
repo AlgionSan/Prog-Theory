@@ -13,7 +13,7 @@ public abstract class Spaceship_Base : MonoBehaviour
     // Variables:
     // Ship Health
     // Ship Speed
-    private int m_BaseShipHealth = 5; // this is a private backing field for variabe protection (encapsulation)
+    [SerializeField]private int m_BaseShipHealth = 5; // this is a private backing field for variabe protection (encapsulation)
 
     // using encapsulation, we can get the baseShipHealth outside of class but can only set it inside of the Spaceship_Base Class
     public int baseShipHealth 
@@ -40,6 +40,10 @@ public abstract class Spaceship_Base : MonoBehaviour
         } // setting the setter method(?) into private allows to set the value only within the class and not outside
 
     }
+
+   
+
+
 
     //protected int baseShipHealth = 5;
     protected float shipSpeed = 10;

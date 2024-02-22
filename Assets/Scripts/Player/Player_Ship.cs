@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class Player_Ship : Spaceship_Base
 {
+    
     [SerializeField] private int playerHealth;
     [SerializeField] private float playerSpeed;
+
+    public int PlayerHealth { get => playerHealth;  }
+
 
     private void Start()
     {
@@ -16,15 +20,25 @@ public class Player_Ship : Spaceship_Base
 
 
         // accessing the ship health attribute of the base ship and setting it to player health is Inheritance
-        playerHealth = base.baseShipHealth;
+        playerHealth = baseShipHealth;
         playerSpeed = base.shipSpeed - 5;
-        Debug.Log("Player Health: " +  playerHealth);
+        UI_Main_Scene.instance.UpdatePlayerHealth(playerHealth);
+
+
     }
 
     // had move ship on fixed cause what if im calculating physics since its movement? or should stick with update?
     private void Update()
     {
-        MoveShip();
+        //if is game active true then move ship
+        if (UI_Main_Scene.instance.isGameActive)
+        {
+            MoveShip();
+
+        }
+        
+
+
     }
 
 
@@ -51,6 +65,50 @@ public class Player_Ship : Spaceship_Base
 
     }
 
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Enemy_Base enemy = other.GetComponent<Enemy_Base>();
+            int enemyDamage = 0;
+            if(enemy != null) 
+            {
+                switch (enemy.EnemyType)
+                {
+                    case EnemyType.Asteroid:
+                        Enemy_Asteroid_1 newEnemy = enemy as Enemy_Asteroid_1;
+                        enemyDamage = newEnemy.EnemyDamage;
+                        break;
+                    case EnemyType.Ship:
+                        break;
+                    default:
+                        break;
+                }
+                TakeDamage(enemyDamage);
+                Debug.Log("Enemy Deals: " + enemyDamage);
+                Debug.Log("Current Health: " + playerHealth);
+            }
+            
+        
+        }
+
+    }
+
+    void TakeDamage(int damage) 
+    {
+        playerHealth -= damage;
+        UI_Main_Scene.instance.UpdatePlayerHealth(playerHealth);
+
+        if (playerHealth < 0)
+        {
+            UI_Main_Scene.instance.GameOver();
+           
+        
+        }
+
+    }
 
 
 }
